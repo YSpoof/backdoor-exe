@@ -1,15 +1,11 @@
 # backdoor-exe
 Invada qualquer Windows usando um EXE modificado!
 
-Necessário o Perl, MSF(console e venom), um EXE(qualquer) e porta aberta, é claro..
+Necessário o Perl, MSF(console e venom), um EXE(qualquer)..
 
-Para adcionar o Backdoor ao EXE use por exemplo:
+Para ajuda
 
-root@ZBox:~/Desktop# ./backdoor-exe
-
-Usage: backdoor-exe <exe> <ip/ddns> <port> <out>
-  
-Usage: backdoor-exe -n <exe> <ngrok_host> <ngrok_port> <fwdport> <out>
+./backdoor-exe -h
 
 IP:
 
