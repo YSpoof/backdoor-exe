@@ -8,6 +8,7 @@ Para adcionar o Backdoor ao EXE use por exemplo:
 root@ZBox:~/Desktop# ./backdoor-exe
 
 Usage: backdoor-exe <exe> <ip/ddns> <port> <out>
+  
 Usage: backdoor-exe -n <exe> <ngrok_host> <ngrok_port> <fwdport> <out>
 
 IP:
